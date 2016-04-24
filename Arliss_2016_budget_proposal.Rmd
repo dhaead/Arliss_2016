@@ -1,0 +1,168 @@
+---
+title: "Arliss Budget Proposal"
+author: "Damion Rosbrugh"
+date: "February 13, 2016"
+output: html_document
+---
+
+IMU
+https://www.adafruit.com/products/1604
+
+
+motors,T-Motor MN-1806-2300KV Brushless Motor found here http://www.addictiverc.com/store/agora.cgi?product=T-Motor_Products#.Vj6OGSug5nt
+
+propellers
+http://www.rctimer.com/product-1180.html
+
+batteries
+Graupner RC LiPo Battery 1S6P 3.7V 6000mAh
+http://www.quadrocopter.com/Graupner-RC-LiPo-Battery-1S6P-37V-6000mAh_p_582.html
+
+http://www.all-battery.com/li-ion1865074v7800mahflatrechargeablebatterymodulewithpcbandbareleadscustomize.aspx
+
+
+Altimeter Module MS5607
+https://www.parallax.com/product/29124
+
+ESC
+http://www.aeroquadstore.com/Next_Level_20_Amp_Multi_Rotor_ESC_with_SimonK_Firm_p/esc-003.htm
+
+microcontroller
+http://www.adafruit.com/products/2772
+
+gps
+https://www.parallax.com/product/28509
+
+accel
+https://www.adafruit.com/products/163
+
+sd card reader
+https://www.adafruit.com/products/254
+
+battery charger
+http://www.quadrocopter.com/Battery-Chargers_c_131.html
+
+camera
+http://www.amazon.com/Arducam-Megapixels-Camera-Module-OV5642/dp/B012VPMY0A/ref=sr_1_12?srs=12723195011&ie=UTF8&qid=1449361925&sr=8-12
+
+
+
+```{r}
+library(reshape2)
+library(dplyr)
+```
+
+we compute the mass of our frame using the volume density relationship
+```{r}
+abs_dens<-1.04#g/cc
+inchconv<-2.54#inch to cm conversion factor 
+#these are the dimensions of the top and bottom plates
+length<-4.5*inchconv
+width<-4.5*inchconv
+height<-(2/16)*inchconv
+#these are the dimension of the arms
+lengtha<-6*inchconv
+widtha<-1*inchconv
+
+cutout<-0#2*2*(1/8)*inchconv*abs_dens*2
+
+heighta<-(2/16)*inchconv
+volumea<-(lengtha*widtha*heighta)#/.01/1000
+volume<-(length*width*height)#/.01/1000
+frame_mass<-2*abs_dens*volume+4*abs_dens*volumea-cutout
+frame_mass
+
+```
+Below is the weight and cost budget
+```{r}
+
+qbudget<-data.frame(cbind(
+#batteries<-c(bweight<-580,bcost<-149,1),     #two batteries at 140g cost $39.90 
+batteries<-c(bweight<-290,bcost<-65.00*1,1),#c(bweight<-266*1,bcost<-65.00*1,1),     #two batteries at 140g cost $39.90 each
+gps<-c(gwt<-9.1,gcst<-49.99,1),
+feather<-c(mwt<-4.2,mcst<-19.95,1),
+altimeter<-c(altwt<-1.7,altcst<-22.49,1),
+#motors<-c(mtwt<-80*4,mtcst<-67.89*4,4),
+motors<-c(mtwt<-18*4,mtcst<-22.89*4,4),
+camera<-c(camwt<-9.1,camcst<-25.99,1),
+accel<-c(acwt<-1.7,accst<-14.95,1),sdcard<-c(2,14.95,1),
+hinges<-c(hngwt<-4*.7,hngcst<-4*2,4),
+prop<-c(12.5*4,15.99,4),speed<-c(4*25,22.99*4,4),
+pdb<-c(1,10.00,1),frame<-c(frame_mass,0,4),battchar<-c(0,109.95,1)))
+wt_cst<-data.frame(rowSums(qbudget))
+qbudget<-cbind(unit<-data.frame(c("weight","cost","quantity")),qbudget)
+names(qbudget)<-c("unit","batteries","gps","feather","altimeter","motors","camera","accel","hinges","sdcard","propellers","speed control","power dist board","frame","charger")
+qbudget
+```
+
+```{r}
+
+totalwt<-wt_cst[1,1]
+row.names(wt_cst)<-c("Total Weight (g)","Total Cost ($)","Number of Componants")
+wt_cst
+```
+
+
+Below are some logistical calculations
+```{r}
+
+
+r=3
+framewidth=4.5
+hf<-sqrt(4*r^2-framewidth^2)#heightformula
+hf
+
+maxhieght<-hf #with 4.5 width
+
+motorwithprop<-18.5+14.5
+motorheight<-motorwithprop/25
+
+batteryheight<-40
+height.of.unit<-(motorwithprop+batteryheight)/25.4
+maxhieght-height.of.unit
+num_motor<-4
+total_motor_thrust<-num_motor*c(259,335,410,486,535)
+thrust_to_weight<-total_motor_thrust/totalwt
+amps.per.motor<-c(3.9,5.6,7.3,9.4,11.1)
+watts.per.motor<-c(43,62,81,104,123)
+percentage.per.motor<-c(50,60,75,85,100)
+mot<-cbind(total_motor_thrust,amps.per.motor,watts.per.motor,percentage.per.motor,thrust_to_weight)
+battlife<-60*.75*5200/((amps.per.motor*4*1000))#battery life in minutes #60*6/(amps.per.motor*4)
+#battlife<-5200/((amps.per.motor*4*1000)*.75) #60*6/(amps.per.motor*4)
+
+battlife2<-60*12/(amps.per.motor*4)
+battlives<-data.frame(cbind(battlife,battlife2,mot))
+battlives
+
+mudget<-melt(qbudget,id.vars = "unit")
+names(mudget)<-c("unit","componant","value")
+costs<-as.numeric(filter(mudget,unit=="cost")$value)
+
+room_brunos<-100
+nights_stay<-3
+num_rooms<-1
+
+planetx<-600
+people<-3
+quads<-3
+total_budget<-sum(costs)*quads+planetx*people+nights_stay*num_rooms*room_brunos
+total_budget
+munget<-filter(mudget,unit=="cost")
+mungwht<-filter(mudget,unit=="weight")
+
+library(ggplot2)
+ggplot(munget,aes(x = componant, y = value)) + geom_bar(stat="identity") +
+xlab("Componant") + ylab("Cost") + labs(title = "Cost By Componant Type") + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))
+
+
+
+ggplot(mungwht,aes(x = componant, y = value)) + geom_bar(stat="identity") +
+xlab("Componant") + ylab("Weight in grams") + labs(title = "weight By Componant Type") + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))
+
+
+
+ggplot(battlives,aes(x = battlife, y = thrust_to_weight)) + geom_line(stat="identity") +
+xlab("Battery Life") + ylab("Thrust to Weight Ratio") + labs(title = "Thrust to Weight Ratio as a function of Battery Life") + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))
+
+
+```
