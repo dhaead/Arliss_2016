@@ -4,10 +4,7 @@ author: "Damion Rosbrugh"
 date: "April 24, 2016"
 output: html_document
 ---
-
-Hi Joe,
-
-This email is in regards to the current status of the WCC quadcopter project intended for entry in the 2016 ARLISS competition.
+The current status of the WCC quadcopter project intended for entry in the 2016 ARLISS competition.
 Our current standing is that we have an assembled quadcopter which has jumped out of my hands with great enthusiasm but still
 requires a fair amount of tweeking before it will be ready for flight. 
 
