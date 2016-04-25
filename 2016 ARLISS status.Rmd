@@ -3,6 +3,7 @@ title: "WCC ARLISS 2016 Status Report"
 author: "Damion Rosbrugh"
 date: "April 24, 2016"
 output: html_document
+fig_caption: yes
 ---
 The current status of the WCC quadcopter project intended for entry in the 2016 ARLISS competition.
 Our current standing is that we have an assembled quadcopter which has jumped out of my hands with great enthusiasm but still
@@ -28,7 +29,7 @@ program which immediatly arms the ESC's then waits 7 seconds and goes to full th
 I can see that the quad is trying to lift but it's not quite getting there. I believe that our quad is too heavy.
 I am trying to find ways to lighten our load however I think the current frame that we have is too heavy. We either need a store bought frame or a 3-D printed frame
 which will be lighter than the bass wood frame I put together. There may be other factors which affect the quads ability to lift and I will be looking in to those 
-as well. 
+as well. I have begun to implement code which should allow us to control the quads roll, pitch, and yaw. This will in turn lead to the programming necesarry for the microcontroller to send translational and rotation commands to the motors during the descent.
 
 
 We made some progress as far as our navigation system is concerned. I have wired up the IMU and the GPS to the Adafruit feather M0 basic proto microcontroller,
@@ -39,17 +40,15 @@ with the coordinates of our target as well as an arbitrary third set of coordina
 of these points. 
 
 
-
 ![optional caption text](geogebra-export2.png)
  
-
 Since our choice for the third point is arbitrary and we have an onboard compass, we should pick a point known to be north of the approximate ejection
 region(the estimated flight corridor of the rocket). Because we can calculate our angle off of north using the onboard compass, and if we know the distances between the
 three gps coordinate pairs and we choose our third point to be north, we can use the law of cosines to determine the angle between north and our target. This added to
-the angle between our body axis and north, will give us the angle the quad must rotate in order to be heading toward the target. In the figure this is the angle \delta.
+the angle between our body axis and north, will give us the angle the quad must rotate in order to be heading toward the target. In the figure this is the angle $\delta$.
 
 
-![optional caption text](geogebra-simplified.png)
+!["simplified"](geogebra-simplified.png)
 
 
 Overall our current status is that we have an operational if not flight capable airframe. The navigation package has been prototyped and tested and is in working order, with the exception of the failure of our current microcontroller due to unknown reasons. There are a few parts that we still need to complete our project, and there are a few parts that we should have spares of. The list and quantities are below, as well as links to each.

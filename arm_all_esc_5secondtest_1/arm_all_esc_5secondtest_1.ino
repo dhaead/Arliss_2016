@@ -1,0 +1,112 @@
+/*
+created by Damion Rosbrugh
+This code arms four next level 30 amp ESC's
+Then implements an 11 second test of the motors at
+two speeds.
+Additional code has been added to further explore
+roll, pitch, and yaw tests.
+*/
+
+#include <Servo.h>
+
+Servo myservo1;  // create servo object to control a servo
+Servo myservo2;  // create servo object to control a servo
+Servo myservo3;  // create servo object to control a servo
+Servo myservo4;  // create servo object to control a servo
+
+int motor1power, motor3power; // Motors on the X axis
+int motor2power, motor4power; // Motors on the Y axis
+int pos1 = 0;    // variable to store the servo position
+int pos2 = 0;    // variable to store the servo position
+int pos3 = 0;    // variable to store the servo position
+int pos4 = 0;    // variable to store the servo position
+int pos = 0;    // variable to store the servo position
+int throttle = 0;
+int rolloffset = 0;// change ths should make the drone move left and right
+int pitchoffset = 0; //changing this should make the drone move forward
+int yawoffset = 0;//changing this should rotate the drone
+void setup() {  
+myservo1.attach(6);  // attaches the motor on pin 6 to the servo object
+myservo2.attach(10);  // attaches the servo on pin 10 to the servo object
+myservo3.attach(11);  // attaches the servo on pin 11 to the servo object
+myservo4.attach(5);  // attaches the servo on pin 5 to the servo object
+
+
+ //for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
+    // in steps of 1 degree
+
+ pos=180;
+   
+    myservo1.write(pos);              // tell servo to go to position in variable 'pos'
+    myservo2.write(pos);              // tell servo to go to position in variable 'pos'
+    myservo3.write(pos);              // tell servo to go to position in variable 'pos'
+    myservo4.write(pos);              // tell servo to go to position in variable 'pos'
+    
+    delay(15);
+pos=0;
+    myservo1.write(pos);              
+    myservo2.write(pos);              
+    myservo3.write(pos);              
+    myservo4.write(pos);              
+    
+    delay(15);                       // waits 15ms for the motor to reach the position
+//}  
+
+    delay(7000); // waits 7s 
+pos1 = 180; // goes from 0 degrees to 180
+pos2 =180; 
+pos3 =180; 
+pos4 = 180; 
+
+    myservo1.write(pos1);              
+    myservo2.write(pos2);              
+    myservo3.write(pos3);              
+    myservo4.write(pos4);              
+   
+    delay(2000);                       // waits 2 s for the servo to reach the position
+pos1 = 150; // goes from 0 degrees to 180 degrees
+pos2 =150; // goes from 0 degrees to 180 degrees
+pos3 =150; // goes from 0 degrees to 180 degrees
+pos4 = 150; // goes from 0 degrees to 180 degrees
+
+    // in steps of 1 degree
+    myservo1.write(pos1);              
+    myservo2.write(pos2);              
+    myservo3.write(pos3);              
+    myservo4.write(pos4);              
+   delay(15);
+
+   delay(2000);      // waits 2 s for the servo to reach the position
+pos1 = 0; // goes from 0 degrees to 180 degrees
+pos2 =0; // goes from 0 degrees to 180 degrees
+pos3 =0; // goes from 0 degrees to 180 degrees
+pos4 = 0; // goes from 0 degrees to 180 degrees
+
+    myservo1.write(pos1);              // tell servo to go to position in variable 'pos'
+    myservo2.write(pos2);              // tell servo to go to position in variable 'pos'
+    myservo3.write(pos3);              // tell servo to go to position in variable 'pos'
+    myservo4.write(pos4);              // tell servo to go to position in variable 'pos'
+   delay(15);
+
+}
+
+
+void loop() {
+
+ 
+motor1power = throttle + pitchoffset + yawoffset;
+ 
+motor2power = throttle + rolloffset  - yawoffset;
+ 
+motor3power = throttle - pitchoffset + yawoffset;
+ 
+motor4power = throttle - rolloffset  - yawoffset;
+
+    myservo1.write(motor1power);              // tell servo to go to position in variable 'pos'
+    myservo2.write(motor2power);              // tell servo to go to position in variable 'pos'
+    myservo3.write(motor3power);              // tell servo to go to position in variable 'pos'
+    myservo4.write(motor4power);              // tell servo to go to position in variable 'pos'
+
+}
+
+
