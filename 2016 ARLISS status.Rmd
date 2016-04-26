@@ -2,7 +2,7 @@
 title: "WCC ARLISS 2016 Status Report"
 author: "Damion Rosbrugh"
 date: "April 24, 2016"
-output: html_document
+output: pdf_document
 fig_caption: yes
 ---
 
@@ -56,13 +56,14 @@ the angle between our body axis and north, will give us the angle the quad must 
 !["simplified"](geogebra-simplified.png)
 
 
+##Summary
 
-Overall our current status is that we have an operational if not flight capable airframe. The navigation package has been prototyped and tested and is in working order, with the exception of the failure of our current microcontroller due to unknown reasons.
+Overall our current status is that we have an operational if not flight capable airframe. The navigation circuit has been built and is in working order, though more work needs to be done implementing the navigation algorithm.
 
 
 ##Analysis
 
-Below is a graph of the thrust to weight ratio of the combined efforts of our motor as a function of load weight colored by Throttle Percentage. This is usefull to information because in order to maintain flight the quad must have a thrust to weight ratio of at least 2. From the graph we can see that we our quad should weigh no more than 680 pounds in order to have a thrust to weight ratio of 2 or more for 60 percent of full throttle.
+Below is a graph of the thrust to weight ratio of the combined efforts of our motor as a function of load weight colored by Throttle Percentage. This is usefull information because in order to maintain flight the quad must have a thrust to weight ratio of at least 2. From the graph we can see that our quad should weigh no more than 680 grams in order to have a thrust to weight ratio of 2 or more for 60 percent of full throttle.
 
 
 ```{r}
