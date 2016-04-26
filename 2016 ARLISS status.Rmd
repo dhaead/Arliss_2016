@@ -6,21 +6,21 @@ output: html_document
 fig_caption: yes
 ---
 
-##Introduction
-
 !["simplified"](IMG_0492.jpg)
 
 
-
-The current status of the WCC quadcopter project intended for entry in the 2016 ARLISS competition.
-Our current standing is that we have an assembled quadcopter which has jumped out of my hands with great enthusiasm but still
-requires a fair amount of tweeking before it will be ready for flight. 
+##Introduction
+The following is a report on the most up to date status of the WCC quadcopter project intended for entry in the 2016 ARLISS competition. Currently we have an assembled quadcopter which has jumped out of my hands with great enthusiasm but still requires a fair amount of tweeking before it will be ready for flight. 
 
 All files currently associated with this project; including navigation program, flight test program, and budget/flight analysis can be found on github at the following link. https://github.com/dhaead/Arliss_2016
 
 The areas of this project currently being discussed are:
-The airframe (frame,motors,esc's,power distribution,micro controller,batteries)
-The navigation system (micro controller, IMU, GPS, navigation algorithm, data aquistion, data processing)
+
+###The airframe
+consists of: frame,motors,esc's,power distribution,micro controller,batteries
+
+###The navigation system 
+consists of: micro controller, IMU, GPS, navigation algorithm, data aquistion, data processing
 
 ##Airframe
 
@@ -29,9 +29,11 @@ it was necessary to utilize a different microcontroller which happened to be on 
 the arduino atmega 2560 which signals the ESC's to turn on the motors. We are using a 1.3 A 30C lipo battery 11.1 V. I have implemented an 11 second test flight
 program which immediatly arms the ESC's then waits 7 seconds and goes to full throttle for 2 seconds then throttles down to 3/4 throttle for 2 seconds then shuts off. 
 I can see that the quad is trying to lift but it's not quite getting there. I believe that our quad is too heavy.
-I am trying to find ways to lighten our load however I think the current frame that we have is too heavy. We either need a store bought frame or a 3-D printed frame
+I am trying to find ways to lighten our load however I think the current frame that we have is the bulk of the trimmable weight. We either need a store bought frame or a 3-D printed frame
 which will be lighter than the bass wood frame I put together. There may be other factors which affect the quads ability to lift and I will be looking in to those 
-as well. I have begun to implement code which should allow us to control the quads roll, pitch, and yaw. This will in turn lead to the programming necesarry for the microcontroller to send translational and rotation commands to the motors during the descent.
+as well. In addition, after analysis of our quads 30C lipo battery pack, I've found that this pack is not ideal for our purposes as it is not capable of delivering the full load of current being demanded from the motors. Further analysis is needed to determine the optimal battery to suit our needs. 
+
+I have begun to implement code which should allow us to control the quads roll, pitch, and yaw. This will in turn lead to the programming necesarry for the microcontroller to send translational and rotation commands to the motors during the descent.
 
 #Navigation
 
@@ -98,8 +100,6 @@ tmt<-reshape(tmt,
 
 ggplot(tmt, aes(x=load_weight, y = Thrust_to_weight_ratio)) + 
 geom_line(aes(colour=Throttle_Percentage, group=Throttle_Percentage)) + geom_point(aes(colour=Throttle_Percentage),size=3) 
-
-battlife<-(1.3/(amps.per.motor*4)*.7)
 
 ```
 
