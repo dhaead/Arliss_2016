@@ -5,22 +5,24 @@ date: "April 24, 2016"
 output: html_document
 fig_caption: yes
 ---
+
+##Introduction
+
+!["simplified"](IMG_0492.jpg)
+
+
+
 The current status of the WCC quadcopter project intended for entry in the 2016 ARLISS competition.
 Our current standing is that we have an assembled quadcopter which has jumped out of my hands with great enthusiasm but still
 requires a fair amount of tweeking before it will be ready for flight. 
 
 All files currently associated with this project; including navigation program, flight test program, and budget/flight analysis can be found on github at the following link. https://github.com/dhaead/Arliss_2016
 
-
-The current status can be summed up in terms of addressing each facet of the project. Within each facet we will discuss the 
-scope and level of completion, as well as the most current plan for completing the remaining work to achieve our goal of an 
-autonomous quadcopter navigation to a target after sustaining a rocket launch and subsequent ejection from a height of approximately 2 miles.
-
-
 The areas of this project currently being discussed are:
 The airframe (frame,motors,esc's,power distribution,micro controller,batteries)
 The navigation system (micro controller, IMU, GPS, navigation algorithm, data aquistion, data processing)
 
+##Airframe
 
 Initial proof of concept flight tests for the airframe have been so far unsuccessful. Due to a malfunction with our main micro controller (Adafruit feather M0 basic proto)
 it was necessary to utilize a different microcontroller which happened to be on hand to do testing with the airframe. Our current airframe electronics package is
@@ -31,6 +33,7 @@ I am trying to find ways to lighten our load however I think the current frame t
 which will be lighter than the bass wood frame I put together. There may be other factors which affect the quads ability to lift and I will be looking in to those 
 as well. I have begun to implement code which should allow us to control the quads roll, pitch, and yaw. This will in turn lead to the programming necesarry for the microcontroller to send translational and rotation commands to the motors during the descent.
 
+#Navigation
 
 We made some progress as far as our navigation system is concerned. I have wired up the IMU and the GPS to the Adafruit feather M0 basic proto microcontroller,
 and began doing distance calculations and developing and implementing the algorithm that will be used to navigate to the target. The start of the mission will 
@@ -51,13 +54,52 @@ the angle between our body axis and north, will give us the angle the quad must 
 !["simplified"](geogebra-simplified.png)
 
 
-Overall our current status is that we have an operational if not flight capable airframe. The navigation package has been prototyped and tested and is in working order, with the exception of the failure of our current microcontroller due to unknown reasons. There are a few parts that we still need to complete our project, and there are a few parts that we should have spares of. The list and quantities are below, as well as links to each.
 
-Adafruit feather M0 adalogger 
-we need at least one. I would like to have one or two extra.
+Overall our current status is that we have an operational if not flight capable airframe. The navigation package has been prototyped and tested and is in working order, with the exception of the failure of our current microcontroller due to unknown reasons.
 
-Linear Technologies 3.3 volt regulator.
-we should order 5.
 
-30C 1300 mah 11.1 volt lipo batteries
-we acuire 2.
+##Analysis
+
+Below is a graph of the thrust to weight ratio of the combined efforts of our motor as a function of load weight colored by Throttle Percentage. This is usefull to information because in order to maintain flight the quad must have a thrust to weight ratio of at least 2. From the graph we can see that we our quad should weigh no more than 680 pounds in order to have a thrust to weight ratio of 2 or more for 60 percent of full throttle.
+
+
+```{r}
+library(reshape2)
+library(ggplot2)
+```
+
+###Thrust To Weight Calculations
+
+```{r}
+num_motor<-4
+load_weight<-seq(400,770,by=370/4)
+total_motor_thrust<-num_motor*cbind(259/load_weight,335/load_weight,410/load_weight,486/load_weight,535/load_weight)
+amps.per.motor<-c(3.9,5.6,7.3,9.4,11.1)
+watts.per.motor<-c(43,62,81,104,123)
+percentage.per.motor<-c(50,60,75,85,100)
+total_motor_thrust<-data.frame(total_motor_thrust)
+tmt<-data.frame(cbind(load_weight,total_motor_thrust))
+names(tmt)<-c("load_weight",percentage.per.motor)
+
+time<-seq(1,60,by=1)
+
+
+bat<-data.frame(cbind(percentage.per.motor,4*amps.per.motor,60*((amps.per.motor*4/.7)/1.3)))
+names(bat)<-c("Throttle_Percentage","Total_Current","Bat")
+
+
+tmt<-reshape(tmt, 
+  varying = c("50", "60", "75", "85", "100"), 
+  v.names = "Thrust_to_weight_ratio",
+  timevar = "Throttle_Percentage", 
+  times = c("50", "60", "75", "85", "100"), 
+  idvar = c("load_weight"),
+  direction = "long")
+
+ggplot(tmt, aes(x=load_weight, y = Thrust_to_weight_ratio)) + 
+geom_line(aes(colour=Throttle_Percentage, group=Throttle_Percentage)) + geom_point(aes(colour=Throttle_Percentage),size=3) 
+
+battlife<-(1.3/(amps.per.motor*4)*.7)
+
+```
+
