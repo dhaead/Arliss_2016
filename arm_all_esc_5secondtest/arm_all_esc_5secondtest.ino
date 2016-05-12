@@ -48,21 +48,21 @@ myservo4.attach(5);  // attaches the servo on pin 9 to the servo object
     myservo3.write(pos);              // tell servo to go to position in variable 'pos'
     myservo4.write(pos);              // tell servo to go to position in variable 'pos'
     
-    delay(15);
+    delay(1000);
 pos=0;
     myservo1.write(pos);              // tell servo to go to position in variable 'pos'
     myservo2.write(pos);              // tell servo to go to position in variable 'pos'
     myservo3.write(pos);              // tell servo to go to position in variable 'pos'
     myservo4.write(pos);              // tell servo to go to position in variable 'pos'
     
-    delay(15);                       // waits 15ms for the servo to reach the position
+    delay(1000);                       // waits 15ms for the servo to reach the position
 //}  
 
 
 
 
-    delay(7000);                       // waits 15ms for the servo to reach the position
-
+    //delay(7000);                       // waits 15ms for the servo to reach the position
+delay(4000);
 
 
 //for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
@@ -72,10 +72,10 @@ pos=0;
 
 
 
-pos1 = 180; // goes from 0 degrees to 180 degrees
-pos2 =180; // goes from 0 degrees to 180 degrees
-pos3 =180; // goes from 0 degrees to 180 degrees
-pos4 = 180; // goes from 0 degrees to 180 degrees
+pos1 = 50; // goes from 0 degrees to 180 degrees
+pos2 =50; // goes from 0 degrees to 180 degrees
+pos3 =50; // goes from 0 degrees to 180 degrees
+pos4 = 50; // goes from 0 degrees to 180 degrees
 
     // in steps of 1 degree
     myservo1.write(pos1);              // tell servo to go to position in variable 'pos'
@@ -83,25 +83,7 @@ pos4 = 180; // goes from 0 degrees to 180 degrees
     myservo3.write(pos3);              // tell servo to go to position in variable 'pos'
     myservo4.write(pos4);              // tell servo to go to position in variable 'pos'
    
-    delay(2000);                       // waits 15ms for the servo to reach the position
-
-  
-
-pos1 = 150; // goes from 0 degrees to 180 degrees
-pos2 =150; // goes from 0 degrees to 180 degrees
-pos3 =150; // goes from 0 degrees to 180 degrees
-pos4 = 150; // goes from 0 degrees to 180 degrees
-
-    // in steps of 1 degree
-    myservo1.write(pos1);              // tell servo to go to position in variable 'pos'
-    myservo2.write(pos2);              // tell servo to go to position in variable 'pos'
-    myservo3.write(pos3);              // tell servo to go to position in variable 'pos'
-    myservo4.write(pos4);              // tell servo to go to position in variable 'pos'
-   delay(15);
-
-
-
-    delay(2000);                       // waits 15ms for the servo to reach the position
+    delay(3000);                       // waits 15ms for the servo to reach the position
 
   
 
@@ -119,15 +101,22 @@ pos4 = 0; // goes from 0 degrees to 180 degrees
 
 
 
-              
-                       // waits 15ms for the servo to reach the position
- // for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-  // myservo1.write(pos);              // tell servo to go to position in variable 'pos'
-  // myservo2.write(pos);              // tell servo to go to position in variable 'pos'
-  // myservo3.write(pos);              // tell servo to go to position in variable 'pos'
-  // myservo4.write(pos);              // tell servo to go to position in variable 'pos'
-  //  delay(15);                       // waits 15ms for the servo to reach the position
- // }
+    delay(500);                       // waits 15ms for the servo to reach the position
+
+  
+
+pos1 = 0; // goes from 0 degrees to 180 degrees
+pos2 =0; // goes from 0 degrees to 180 degrees
+pos3 =0; // goes from 0 degrees to 180 degrees
+pos4 = 0; // goes from 0 degrees to 180 degrees
+
+    // in steps of 1 degree
+    myservo1.write(pos1);              // tell servo to go to position in variable 'pos'
+    myservo2.write(pos2);              // tell servo to go to position in variable 'pos'
+    myservo3.write(pos3);              // tell servo to go to position in variable 'pos'
+    myservo4.write(pos4);              // tell servo to go to position in variable 'pos'
+   delay(15);
+
 
 }
 

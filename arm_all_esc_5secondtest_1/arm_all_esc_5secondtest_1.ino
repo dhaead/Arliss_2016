@@ -42,70 +42,93 @@ myservo4.attach(5);  // attaches the servo on pin 5 to the servo object
     myservo3.write(pos);              // tell servo to go to position in variable 'pos'
     myservo4.write(pos);              // tell servo to go to position in variable 'pos'
     
-    delay(15);
+    delay(1000);
 pos=0;
     myservo1.write(pos);              
     myservo2.write(pos);              
     myservo3.write(pos);              
     myservo4.write(pos);              
     
-    delay(15);                       // waits 15ms for the motor to reach the position
+    delay(1000);                       // waits 15ms for the motor to reach the position
 //}  
 
-    delay(7000); // waits 7s 
-pos1 = 180; // goes from 0 degrees to 180
-pos2 =180; 
-pos3 =180; 
-pos4 = 180; 
+    delay(3000); // waits 7s 
 
-    myservo1.write(pos1);              
-    myservo2.write(pos2);              
-    myservo3.write(pos3);              
-    myservo4.write(pos4);              
-   
-    delay(2000);                       // waits 2 s for the servo to reach the position
-pos1 = 150; // goes from 0 degrees to 180 degrees
-pos2 =150; // goes from 0 degrees to 180 degrees
-pos3 =150; // goes from 0 degrees to 180 degrees
-pos4 = 150; // goes from 0 degrees to 180 degrees
 
-    // in steps of 1 degree
-    myservo1.write(pos1);              
-    myservo2.write(pos2);              
-    myservo3.write(pos3);              
-    myservo4.write(pos4);              
-   delay(15);
 
-   delay(2000);      // waits 2 s for the servo to reach the position
-pos1 = 0; // goes from 0 degrees to 180 degrees
-pos2 =0; // goes from 0 degrees to 180 degrees
-pos3 =0; // goes from 0 degrees to 180 degrees
-pos4 = 0; // goes from 0 degrees to 180 degrees
+pos1 = 0; // goes from 0 degrees to 180
+pos2 =0; 
+pos3 =0; 
+pos4 = 0; 
 
-    myservo1.write(pos1);              // tell servo to go to position in variable 'pos'
-    myservo2.write(pos2);              // tell servo to go to position in variable 'pos'
-    myservo3.write(pos3);              // tell servo to go to position in variable 'pos'
-    myservo4.write(pos4);              // tell servo to go to position in variable 'pos'
-   delay(15);
+
+
+motor1power = pos1 - rolloffset - pitchoffset + yawoffset;
+ 
+motor2power = pos2 + rolloffset + pitchoffset - yawoffset;
+ 
+motor3power = pos3 + rolloffset - pitchoffset + yawoffset;
+ 
+motor4power = pos4 - rolloffset + pitchoffset - yawoffset;
+
+//myquad orientation
+//  1  3
+//  \-/
+//  /-\
+//  4  2
+
+//c = throttle - roll + pitch + yaw
+//d = throttle + roll + pitch - yaw
+//b = throttle - roll - pitch - yaw
+//a = throttle + roll - pitch + yaw
+
+//CW motors    A,C
+//CCW motors   D,B
+
+      //     Front
+    //       +1 pitch
+  //        C   D
+//-1 roll    \-/     +1 roll   right
+      //     /-\
+     //     B   A
+     //      -1 pitch
+
+           
+    myservo1.write(motor1power);              // tell servo to go to position in variable 'pos'
+    myservo2.write(motor2power);              // tell servo to go to position in variable 'pos'
+    myservo3.write(motor3power);              // tell servo to go to position in variable 'pos'
+    myservo4.write(motor4power);              // tell servo to go to position in variable 'pos'
+
+
+
+    delay(3000); // waits 7s 
+
+pos1 = 0; // goes from 0 degrees to 180
+pos2 =0; 
+pos3 =0; 
+pos4 = 0; 
+
+
+
+motor1power = 0;
+ 
+motor2power = 0;
+ 
+motor3power = 0;
+ 
+motor4power = 0;
+
+    myservo1.write(motor1power);              // tell servo to go to position in variable 'pos'
+    myservo2.write(motor2power);              // tell servo to go to position in variable 'pos'
+    myservo3.write(motor3power);              // tell servo to go to position in variable 'pos'
+    myservo4.write(motor4power);              // tell servo to go to position in variable 'pos'
+
 
 }
 
 
 void loop() {
 
- 
-motor1power = throttle + pitchoffset + yawoffset;
- 
-motor2power = throttle + rolloffset  - yawoffset;
- 
-motor3power = throttle - pitchoffset + yawoffset;
- 
-motor4power = throttle - rolloffset  - yawoffset;
-
-    myservo1.write(motor1power);              // tell servo to go to position in variable 'pos'
-    myservo2.write(motor2power);              // tell servo to go to position in variable 'pos'
-    myservo3.write(motor3power);              // tell servo to go to position in variable 'pos'
-    myservo4.write(motor4power);              // tell servo to go to position in variable 'pos'
 
 }
 

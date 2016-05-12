@@ -2,7 +2,7 @@
 title: "WCC ARLISS 2016 Status Report"
 author: "Damion Rosbrugh"
 date: "April 24, 2016"
-output: pdf_document
+output: html_document
 fig_caption: yes
 ---
 
@@ -100,7 +100,37 @@ tmt<-reshape(tmt,
   direction = "long")
 
 ggplot(tmt, aes(x=load_weight, y = Thrust_to_weight_ratio)) + 
-geom_line(aes(colour=Throttle_Percentage, group=Throttle_Percentage)) + geom_point(aes(colour=Throttle_Percentage),size=3) 
+geom_line(aes(colour=Throttle_Percentage, group=Throttle_Percentage)) + geom_point(aes(colour=Throttle_Percentage),size=3) + xlab("Load Weight") + ylab("Thrust to Weight Ratio") + labs(title = "Thrust to Weight Ratios as a Function of Throttle Percentage")
+
+
+
+batt<-cbind(time<-seq(1,60,by=12),percentage.per.motor,
+battlife2.2<-(2.2/(amps.per.motor*4*.7))*60,
+battlife1.3<-(1.3/(amps.per.motor*4*.7))*60,
+battlife1.4<-(1.4/(amps.per.motor*4*.7))*60,
+
+battlife1.6<-(1.6/(amps.per.motor*4*.7))*60)
+
+
+
+batt<-data.frame(batt)
+
+names(batt)<-c("time","percent","2.2","1.3","1.4","1.6")
+
+
+batree<-reshape(batt, 
+  varying = c("2.2", "1.3", "1.4", "1.6"), 
+  v.names = "flight_time",
+  timevar = "battery_capacity_in_mah", 
+  times = c("2.2", "1.3", "1.4", "1.6"), 
+  direction = "long")
+
+
+
+ggplot(batree, aes(x=percent,y = flight_time)) + 
+geom_line(aes(colour=battery_capacity_in_mah, group=battery_capacity_in_mah)) + geom_point(aes(colour=battery_capacity_in_mah),size=3) + xlab("Throttle Percentage") + ylab("Flight Time (minutes)") + labs(title = "Flight Times as a Function of Throttle Percentage")
+
+
 
 ```
 
