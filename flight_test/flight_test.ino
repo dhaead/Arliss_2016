@@ -38,20 +38,51 @@ Servo myservo4;  // create servo object to control a servo
 
 int motor1power, motor3power; // Motors on the X axis
 int motor2power, motor4power; // Motors on the Y axis
-int throttle = 0;    // throttle throttleition
-int rolloffset = 0;// change ths should make the drone move left and right
-int pitchoffset = 0; //changing this should make the drone move forward
-int yawoffset = 0;//changing this should rotate the drone
+int throttle = 0;    // throttle position
+int rolloffset = 5;// change ths should make the drone move left and right
+int pitchoffset = 7; //7changing this should make the drone move forward
+int yawoffset = -8;//changing this should rotate the drone
+int offset1 = 0;//15;
+
+int offset2 = 7;//15;
+int offset3 = 12;//25;
+
+//Serial.begin(9600);
+//Serial.println(50 + pitchoffset);
 
 void setup() {  
 arm_esc();
-throttle=5;
+delay(4000);
+throttle=30;
 flight();
-throttle=10;
+delay(1000);
+throttle=40;
 flight();
+delay(1000);
 
+throttle=50;
+flight();
+delay(1000);
+
+throttle=54;
+flight();
+delay(500);
+
+throttle=57;
+flight();
+delay(500);
+
+throttle=59;
+flight();
+delay(500);
+throttle=60;
+flight();
+delay(3000);
+powerdown();    
 
 }
+
+
 
 void loop() {
 
